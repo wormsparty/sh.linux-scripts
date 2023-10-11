@@ -27,4 +27,14 @@ sudo zypper install rclone gimp inkscape foliate goldendict-ng blender audacious
 
 # TODO: obsidian
 
+if [ ! -f /usr/local/bin/up ]; then
+	cat << EOT | tee -a /usr/local/bin/up
+ #!/bin/sh
+
+sudo zypper update
+zypper packages --unneeded | awk -F'|' 'NR==0 || NR==1 || NR==2 || NR==3 || NR==4 {next} {print \$3}' | grep -v Name | sudo xargs zypper rm --clean-deps
+EOT
+	sudo chmod +x /usr/local/bin/up
+fi
+ 
 sh "`dirname $0`/common-setup.sh"
