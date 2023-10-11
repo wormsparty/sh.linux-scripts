@@ -17,8 +17,13 @@ if [ ! -f /etc/zypp/repos.d/vscodium.repo ]; then
 	sudo zypper update
 fi
 
+sudo zypper ar -cfp 90 -n Packman http://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
+sudo zypper ref
+sudo zypper install vlc vlc-codecs
+sudo zypper dup --from packman --allow-vendor-change
+
 # 2. Install packages
-sudo zypper install rclone gimp inkscape vlc foliate goldendict-ng blender audacious neovim codium qt5ct kvantum-qt5 kvantum-qt6
+sudo zypper install rclone gimp inkscape foliate goldendict-ng blender audacious neovim codium qt5ct kvantum-qt5 kvantum-qt6
 
 # TODO: obsidian
 
