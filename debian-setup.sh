@@ -29,7 +29,9 @@ else
 fi
 
 # 2. Install packages
-sudo apt-get install rclone gimp inkscape vlc transmission-gtk blender goldendict-webengine foliate audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim codium
+sudo apt-get install rclone gimp inkscape vlc transmission-gtk blender goldendict-webengine foliate audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim codium flatpak
+
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 if [ ! -f /usr/local/bin/up ]; then
 	cat << EOT | tee -a /usr/local/bin/up

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+flatpak install obsidian
+
 mkdir -p ~/GdriveSync
 
 if [ ! -f /usr/local/bin/gsync ]; then
@@ -42,8 +44,14 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	# To find your wifi kernel module: lspci -v, and the driver name is the last line
 	sudo bash -c "echo 'blacklist rtw88_8821ce' >> /etc/modprobe.d/rtw88_8821ce.conf"
 	sudo bash -c "echo 'blacklist mwifiex_pcie' >> /etc/modprobe.d/mwifiex_pcie.conf"
+
+	# debian version
 	sudo depmod -a
 	sudo update-initramfs -u
+	
+	# OpenSUSE version
+	sudo dracut -f --regenerate-all
+
 	sudo modprobe -r rtw88_8821ce
 	sudo modprobe -r mwifiex_pcie
 	sudo bash -c "echo 'iface wlp2s0 inet manual' > /etc/network/interfaces.d/no-wifi" 
