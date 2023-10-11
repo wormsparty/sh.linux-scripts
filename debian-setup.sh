@@ -29,7 +29,7 @@ else
 fi
 
 # 2. Install packages
-sudo apt-get install rclone rclone-browser gimp inkscape vlc transmission-gtk blender goldendict-webengine foliate obsidian audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim codium
+sudo apt-get install rclone rclone-browser gimp inkscape vlc transmission-gtk blender goldendict-webengine foliate audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim codium
 
 # 3. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
