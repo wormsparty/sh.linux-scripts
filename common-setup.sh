@@ -46,7 +46,7 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	sudo bash -c "echo 'blacklist mwifiex_pcie' >> /etc/modprobe.d/mwifiex_pcie.conf"
 
 	# debian version
-	sudo depmod -a
+	sudo depmod -ae
 	sudo update-initramfs -u
 	
 	# OpenSUSE version
