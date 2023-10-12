@@ -33,7 +33,7 @@ sudo apt-get install rclone gimp inkscape vlc transmission-gtk blender goldendic
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 if [ ! -f /usr/local/bin/up ]; then
-	cat << EOT | tee -a /usr/local/bin/up
+	cat << EOT | sudo tee -a /usr/local/bin/up
  #!/bin/sh
 
 sudo apt-get update
