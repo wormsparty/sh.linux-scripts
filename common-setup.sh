@@ -121,7 +121,4 @@ fi
 
 rm -f ./gnome-shell-extension-installer
 
-open "https://github.com/obsidianmd/obsidian-releases/releases"
-# TODO: flatpak version?
-
 echo "All done! Congrats! Now you can install the .slob files for GoldenDict & others."
