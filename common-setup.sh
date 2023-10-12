@@ -1,6 +1,10 @@
 #!/bin/sh
 
-flatpak install obsidian
+if ! flatpak list | Obsidian; then
+	flatpak install obsidian
+else
+	echo "Obsidian already installed, skipping."
+fi
 
 mkdir -p ~/GdriveSync
 
