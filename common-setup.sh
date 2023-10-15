@@ -1,7 +1,6 @@
 #!/bin/sh
 
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub md.obsidian.Obsidian
+sudo flatpak install flathub md.obsidian.Obsidian
 
 mkdir -p ~/GdriveSync
 
