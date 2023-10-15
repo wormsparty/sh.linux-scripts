@@ -1,10 +1,7 @@
 #!/bin/sh
 
-if ! flatpak list | Obsidian; then
-	flatpak install obsidian
-else
-	echo "Obsidian already installed, skipping."
-fi
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub md.obsidian.Obsidian
 
 mkdir -p ~/GdriveSync
 
