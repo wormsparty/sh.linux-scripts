@@ -17,8 +17,9 @@ if ! which codium; then
 	sudo dnf install codium
 fi
 
-sudo yum install rclone gimp inkscape transmission-gtk blender goldendict foliate audacious libreoffice-writer qt5ct kvantum neovim flatpak gnome-tweaks gnome-extensions-app
+sudo yum install rclone gimp inkscape transmission-gtk blender goldendict audacious libreoffice-writer qt5ct kvantum neovim flatpak gnome-tweaks gnome-extensions-app
 sudo flatpak install org.signal.Signal
+sudo flatpak install com.github.johnfactotum.Foliate
 
 if [ ! -f /usr/local/bin/up ]; then
 	cat << EOT | sudo tee -a /usr/local/bin/up

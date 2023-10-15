@@ -78,10 +78,10 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 fi
 
 # 6. Config
-if ! grep -q QT_QPA_PLATFORMTHEME ~/.profile; then
-	echo "export QT_QPA_PLATFORMTHEME=qt5ct" >> ~/.profile
+if ! grep -q QT_QPA_PLATFORMTHEME /etc/environment; then
+	echo "export QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 else
-	echo "Ignoring modifying .profile, looks already done."
+	echo "Ignoring modifying environment, looks already done."
 fi
 
 if ! grep -q "nvim" ~/.bashrc; then
