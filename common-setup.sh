@@ -58,6 +58,7 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	sudo bash -c "echo 'iface wlp2s0 inet manual' > /etc/network/interfaces.d/no-wifi" 
 	sudo systemctl disable bluetooth.service
 	sudo sed -i 's/AutoEnable=true/AutoEnable=false/' /etc/bluetooth/main.conf
+	sudo sed -i 's/#AutoEnable=true/AutoEnable=false/' /etc/bluetooth/main.conf
 else
 	echo "Ignoring blacklist and bluetooth, looks already done."
 fi
