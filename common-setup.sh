@@ -44,6 +44,7 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	# To find your wifi kernel module: lspci -v, and the driver name is the last line
 	sudo bash -c "echo 'blacklist rtw88_8821ce' >> /etc/modprobe.d/rtw88_8821ce.conf"
 	sudo bash -c "echo 'blacklist mwifiex_pcie' >> /etc/modprobe.d/mwifiex_pcie.conf"
+	sudo bash -c "echo 'blacklist bluetooth' >> /etc/modprobe.d/bluetooth.conf"
 
 	# debian version
 	sudo depmod -ae
