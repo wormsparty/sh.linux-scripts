@@ -46,15 +46,26 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	sudo bash -c "echo 'blacklist mwifiex_pcie' >> /etc/modprobe.d/mwifiex_pcie.conf"
 	sudo bash -c "echo 'blacklist bluetooth' >> /etc/modprobe.d/bluetooth.conf"
 
-	# debian version
-	sudo depmod -ae
-	sudo update-initramfs -u
+	if which dracut; then
+		# OpenSUSE, Fedora, etc.
+		sudo dracut -f --regenerate-all
+ 	else
+		# Debian version
+		sudo depmod -ae
+  	fi
+
+   	if which mkinitrd; then
+    		# OpenSUSE version
+    		sudo mkinitrd
+      	else
+       		# Debian version
+		sudo update-initramfs -u
+  	fi
 	
-	# OpenSUSE version
-	sudo dracut -f --regenerate-all
 
 	sudo modprobe -r rtw88_8821ce
 	sudo modprobe -r mwifiex_pcie
+	sudo modprobe -r bluetooth
 	sudo bash -c "echo 'iface wlp2s0 inet manual' > /etc/network/interfaces.d/no-wifi" 
 	sudo systemctl disable bluetooth.service
 	sudo sed -i 's/AutoEnable=true/AutoEnable=false/' /etc/bluetooth/main.conf
