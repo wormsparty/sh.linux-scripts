@@ -24,9 +24,9 @@ if [ -n "\${folder}" ]; then
 fi
 
 if [ "\$mode" = "pull" ]; then
-	rclone sync gdrive:\${folder} ~/GdriveSync/\${folder} -i
+	rclone sync gdrive:\${folder} ~/GdriveSync/\${folder} -i --exclude //Notes/.obsidian/**
 elif [ "\$mode" = "push" ]; then
-	rclone sync ~/GdriveSync/\${folder} gdrive:/\${folder} -i
+	rclone sync ~/GdriveSync/\${folder} gdrive:/\${folder} -i --exclude //Notes/.obsidian/**
 else
 	echo "Unknown mode \$mode"
 	exit 1
