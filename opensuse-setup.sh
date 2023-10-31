@@ -32,6 +32,7 @@ if [ ! -f /usr/local/bin/up ]; then
 sudo zypper update
 zypper packages --unneeded | awk -F'|' 'NR==0 || NR==1 || NR==2 || NR==3 || NR==4 {next} {print \$3}' | grep -v Name | sudo xargs zypper rm --clean-deps
 sudo flatpak update
+sudo flatpak uninstall --unused
 EOT
 	sudo chmod +x /usr/local/bin/up
 fi
