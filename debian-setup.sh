@@ -40,6 +40,7 @@ sudo apt-get update
 sudo apt-get dist-upgrade
 sudo apt-get autoremove
 sudo flatpak update
+sudo flatpak uninstall --unused
 EOT
 	sudo chmod +x /usr/local/bin/up
 fi
