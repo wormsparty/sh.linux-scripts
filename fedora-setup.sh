@@ -30,6 +30,7 @@ if [ ! -f /usr/local/bin/up ]; then
 
 sudo yum update
 sudo flatpak update
+sudo flatpak uninstall --unused
 EOT
 	sudo chmod +x /usr/local/bin/up
 fi
