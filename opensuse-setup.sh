@@ -5,9 +5,6 @@ if [ "`id -u`" -eq 0 ]; then
 	exit 1
 fi
 
-# 1. Install signal repository
-# TODO
-
 # VSCodium repository
 if [ ! -f /etc/zypp/repos.d/vscodium.repo ]; then
 	sudo rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
