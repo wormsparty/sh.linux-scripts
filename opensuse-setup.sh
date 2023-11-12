@@ -23,7 +23,7 @@ sudo zypper install vlc vlc-codecs
 sudo zypper dup --from packman --allow-vendor-change
 
 # 2. Install packages
-sudo zypper install rclone gimp inkscape foliate goldendict-ng blender audacious neovim codium qt5ct kvantum-qt5 kvantum-qt6 flatpak
+sudo zypper install rclone gimp inkscape goldendict-ng blender audacious neovim codium qt5ct kvantum-qt5 kvantum-qt6 flatpak
 
 if [ ! -f /usr/local/bin/up ]; then
 	cat << EOT | sudo tee -a /usr/local/bin/up
