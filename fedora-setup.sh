@@ -20,8 +20,6 @@ fi
 sudo yum install rclone gimp inkscape transmission-gtk blender goldendict audacious libreoffice-writer qt5ct kvantum neovim flatpak gnome-tweaks gnome-extensions-app
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-sudo flatpak install org.signal.Signal
-sudo flatpak install com.github.johnfactotum.Foliate
 sudo flatpak install io.github.xiaoyifang.goldendict_ng
 
 if [ ! -f /usr/local/bin/up ]; then
