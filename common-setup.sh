@@ -1,6 +1,7 @@
 #!/bin/sh
 
 sudo flatpak install flathub md.obsidian.Obsidian
+sudo flatpak install org.signal.Signal
 
 mkdir -p ~/GdriveSync
 
