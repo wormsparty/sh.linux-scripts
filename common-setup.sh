@@ -1,7 +1,5 @@
 #!/bin/sh
 
-sudo flatpak install flathub md.obsidian.Obsidian
-
 mkdir -p ~/GdriveSync
 
 if [ ! -f /usr/local/bin/gsync ]; then
@@ -110,28 +108,9 @@ fi
 
 gsettings set org.gnome.desktop.privacy remember-recent-files false
 
-if [ ! -d ~/.local/share/gnome-shell/extensions/dash-to-dock@micxgx.gmail.com ]; then
-	if [ ! -f gnome-shell.extension-installer ]; then
-		wget -O gnome-shell-extension-installer "https://github.com/brunelli/gnome-shell-extension-installer/raw/master/gnome-shell-extension-installer"
-		chmod +x gnome-shell-extension-installer
-	fi
-
-	./gnome-shell-extension-installer 307
-else
-	echo "Dock to dash looks already installed, skipping."
-fi
-
-if [ ! -d ~/.local/share/gnome-shell/extensions/trayIconsReloaded@selfmade.pl ]; then
-	if [ ! -f gnome-shell.extension-installer ]; then
-		wget -O gnome-shell-extension-installer "https://github.com/brunelli/gnome-shell-extension-installer/raw/master/gnome-shell-extension-installer"
-		chmod +x gnome-shell-extension-installer
-	fi
-	
-	./gnome-shell-extension-installer 2890
-else
-	echo "Tray icon reloaded looks already installed, skipping."
-fi
-
-rm -f ./gnome-shell-extension-installer
-
-echo "All done! Congrats! Now you can install the .slob files for GoldenDict & others."
+echo "Manual steps:"
+echo " 1. Install Gnome Shell extensions (Dash to Dock + Tray Icon Reloaded)"
+echo " 2. Install Obsidian from https://github.com/obsidianmd/obsidian-releases/releases"
+echo " 3. Install Retroarch from https://docs.libretro.com/development/retroarch/compilation/ubuntu/"
+echo " 4. Install the .slob files for GoldenDict, documents and others from recovery USB."
+echo "That's it !"
