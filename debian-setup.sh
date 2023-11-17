@@ -1,5 +1,10 @@
 #!/bin/sh
 
+###############################################
+# This is the part that is specific to Debian #
+###############################################
+
+# 0. Check we are not admin
 if [ "`id -u`" -eq 0 ]; then
 	echo "Do NOT run this script as root. It will call 'sudo' as needed."
 	exit 1
@@ -28,4 +33,5 @@ EOT
 	sudo chmod +x /usr/local/bin/up
 fi
 
+# 3. Call the common script for non-specific configuration
 sh "`dirname $0`/common-setup.sh"

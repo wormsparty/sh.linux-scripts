@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#############################################################################
+# This is the part that is not specific to a particular Linux distribution. #
+#############################################################################
+
+# 1. rclone service for Google Drive
 mkdir -p ~/GdriveSync
 
 if [ ! -f /usr/local/bin/gsync ]; then
@@ -36,8 +41,20 @@ else
 	echo "gsync seems to be already present, skipping."
 fi
 
+mkdir -p "${HOME}/.config/rclone"
+touch "${HOME}/.config/rclone/rclone.conf"
 
-# 3. Disable wifi & bluetooth
+if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
+	echo "Please add your Google Drive account and name it 'gdrive'"
+	rclone config
+
+	if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
+		echo "'gdrive' doesn't seem to be configured. Please configure it and re-run this script"
+		exit 1
+	fi
+fi
+
+# 2. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	# To find your wifi kernel module: lspci -v, and the driver name is the last line
 	sudo bash -c "echo 'blacklist rtw88_8821ce' >> /etc/modprobe.d/rtw88_8821ce.conf"
@@ -72,21 +89,7 @@ else
 	echo "Ignoring blacklist and bluetooth, looks already done."
 fi
 
-# 4. rclone service
-mkdir -p "${HOME}/.config/rclone"
-touch "${HOME}/.config/rclone/rclone.conf"
-
-if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
-	echo "Please add your Google Drive account and name it 'gdrive'"
-	rclone config
-
-	if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
-		echo "'gdrive' doesn't seem to be configured. Please configure it and re-run this script"
-		exit 1
-	fi
-fi
-
-# 6. Config
+# 3. Various config
 if ! grep -q QT_QPA_PLATFORMTHEME /etc/environment; then
 	echo "export QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 else
