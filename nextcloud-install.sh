@@ -1,12 +1,37 @@
 #!/bin/sh
 
+
 # See: https://linux.how2shout.com/step-by-step-guide-installing-nextcloud-on-debian-12/
 
-DOMAIN=localhost
+echo "Your hostname is: $(hostname)"
+
+DOMAIN=$(hostname)
 APACHE_DIR=/var/www
-DB_USERNAME=nextcloud
-DB_PASSWORD=P@ssw0rd
-DB_NAME=nextcloud
+DB_NAME=
+DB_USERNAME=
+DB_PASSWORD=
+
+echo "Choose the database name (nextcloud):"
+printf "> "
+read DB_NAME
+DB_NAME="${DB_NAME:-nextcloud}"
+
+echo "Choose the database username (nextcloud):"
+printf "> "
+read DB_USERNAME
+DB_USERNAME="${DB_USERNAME:-nextcloud}"
+
+stty -echo
+while [ -z $DB_PASSWORD ]; do
+	echo "Choose the database password:"
+	printf "> "
+	read DB_PASSWORD
+	echo
+done
+stty echo
+
+echo "Are the above information correct? Press enter to continue, or Ctrl+C to abort."
+read ans
 
 sudo apt install apache2 php libapache2-mod-php php-mysql php-common php-gd php-xml php-mbstring php-zip php-curl mariadb-server
 
@@ -45,7 +70,7 @@ FLUSH PRIVILEGES;
 \q;
 EOT
 
-mkdir -p ${APACHE_DIR}/html/${DOMAIN}
+sudo mkdir -p ${APACHE_DIR}/html/${DOMAIN}
 cd ${APACHE_DIR}/html/${DOMAIN}
 
 if [ ! -f latest.tar.bz2 ]; then
@@ -53,7 +78,8 @@ if [ ! -f latest.tar.bz2 ]; then
 fi
 
 if [ ! -f index.html ]; then
-	sudo tar xvf latest.tar.bz2 --strip-components 1
+	echo "Extracting..."
+	sudo tar xf latest.tar.bz2 --strip-components 1
 fi
 
 sudo mkdir -p ${APACHE_DIR}/html/${DOMAIN}/data
