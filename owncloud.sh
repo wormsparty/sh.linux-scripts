@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# See: https://www.rosehosting.com/blog/how-to-install-owncloud-on-debian-12/
+
 DOMAIN=localhost
 PORT=80
 APACHE_DIR=/var/www
@@ -23,8 +25,8 @@ ServerName ${DOMAIN}
 ServerAlias www.${DOMAIN}
 DocumentRoot /var/www/html/${DOMAIN}
 
-ErrorLog ${APACHE_DIR}/logs/${DOMAIN}_error.log
-CustomLog ${APACHE_DIR}/logs/${DOMAIN}_access.log combined
+ErrorLog \${APACHE_LOG_DIR}/error.log
+CustomLog \${APACHE_LOG_DIR}/access.log combined
 
 <Directory ${APACHE_DIR}/html/${DOMAIN}/>
   Options +FollowSymlinks
@@ -61,7 +63,7 @@ sudo apt-get install mariadb-server
 
 cat << EOT | sudo mysql
 	CREATE DATABASE ${DB_NAME};
-	GRANT ALL on owncloud.* to ${DB_USERNAME}@localhost identified by '${DB_PASSWORD}';
+	GRANT ALL on ${DB_NAME}.* to ${DB_USERNAME}@localhost identified by '${DB_PASSWORD}';
 	FLUSH PRIVILEGES;
 	\q
 EOT
