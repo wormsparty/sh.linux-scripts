@@ -20,7 +20,9 @@ else
 fi
 
 # 2. Install packages
-sudo apt-get install curl rclone gimp inkscape vlc transmission-gtk blender goldendict-webengine foliate audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim qt6-creator manuskript
+sudo apt-get install curl rclone gimp inkscape vlc transmission-gtk blender audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim manuskript kodi retroarch gnome-builder
+
+# sudo apt-get install gnome-shell-pomodoro
 
 if [ ! -f /usr/local/bin/up ]; then
 	cat << EOT | sudo tee -a /usr/local/bin/up
