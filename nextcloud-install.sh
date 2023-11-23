@@ -38,8 +38,6 @@ sudo systemctl restart apache2 --no-page -l
 
 sudo mysql_secure_installation
 
-echo "DROP DATABASE ${DB_NAME};" | sudo mysql 
-
 cat << EOT | sudo mysql
 CREATE DATABASE ${DB_NAME};
 GRANT ALL ON ${DB_NAME}.* TO ${DB_USERNAME}@localhost IDENTIFIED BY '${DB_PASSWORD}';
