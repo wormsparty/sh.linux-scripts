@@ -4,3 +4,5 @@ cat << EOT | sudo tee /etc/modprobe.d/raspi-blacklist.conf
 blacklist brcmfmac
 blacklist brcmutil
 EOT
+
+sudo systemctl disable bluetooth
