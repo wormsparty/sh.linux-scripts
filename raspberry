@@ -6,3 +6,5 @@ blacklist brcmutil
 EOT
 
 sudo systemctl disable bluetooth
+
+sudo apt-get install kodi kodi-peripheral-joystick
