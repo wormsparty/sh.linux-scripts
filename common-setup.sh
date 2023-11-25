@@ -41,41 +41,6 @@ else
 	echo "gsync seems to be already present, skipping."
 fi
 
-mkdir -p ~/NextCloudSync
-
-if [ ! -f /usr/local/bin/nsync ]; then
-	cat << EOT | sudo tee -a /usr/local/bin/nsync
-#!/bin/sh
-
-mode=\$1
-folder=\$2
-
-if test \$# -ne 1 && test \$# -ne 2; then
-	echo "Usage: \$(basename \$0) pull|push (folder)"
-	exit 1
-fi
-
-if [ -n "\${folder}" ]; then
-	if [ ! -d "\$HOME/NextCloudSync/\${folder}" ]; then
-		echo "File or folder not found: \$HOME/NextCloudSync/\$folder"
-		exit 1
-	fi
-fi
-
-if [ "\$mode" = "pull" ]; then
-	rclone sync nextcloud:\${folder} ~/NextCloudSync/\${folder} -i --exclude /Notes/.obsidian/**
-elif [ "\$mode" = "push" ]; then
-	rclone sync ~/NextCloudSync/\${folder} nextcloud:/\${folder} -i --exclude /Notes/.obsidian/**
-else
-	echo "Unknown mode \$mode"
-	exit 1
-fi
-EOT
-	sudo chmod +x /usr/local/bin/nsync
-else
-	echo "nsync seems to be already present, skipping."
-fi
-
 mkdir -p "${HOME}/.config/rclone"
 touch "${HOME}/.config/rclone/rclone.conf"
 
@@ -88,19 +53,6 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 		exit 1
 	fi
 fi
-
-if ! grep -q '\[nextcloud\]' "${HOME}/.config/rclone/rclone.conf"; then
-	echo "Please add your NextCloud account and name it 'nextcloud'"
-	echo "Note: type is WebDAV, and URL is 'http://HOST/repote.php/webdav/'"
-	rclone config
-
-	if ! grep -q '\[nextcloud\]' "${HOME}/.config/rclone/rclone.conf"; then
-		echo "'nextcloud' doesn't seem to be configured. Please configure it and re-run this script"
-		exit 1
-	fi
-fi
-
-# 2. Disable wifi & bluetooth
 
 # 2. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
@@ -185,6 +137,8 @@ EOT
 			echo "Failed to find SSH key."
 			exit 1
 		fi
+
+		ssh raspberrypi "echo '$(cat $SSH_KEY)' >> ~/.ssh/authorized_keys"
 	fi
 
 	cat << EOT > ./unison.cron
