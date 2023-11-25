@@ -203,7 +203,7 @@ HOME=/home/$USER/
 # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
 # |  |  |  |  |
 # *  *  *  *  * command to be executed
-  *  1  *  *  * unison mini2raspberry -batch -sshargs='-i /home/$USER/.ssh/${SSH_KEY%.*}'
+  0  *  *  *  * unison mini2raspberry -batch -sshargs='-i /home/$USER/.ssh/${SSH_KEY%.*}'
 EOT
 
 	crontab ./unison.cron
