@@ -1,7 +1,6 @@
 #!/bin/sh
 
 sudo apt-get install vim kodi kodi-peripheral-joystick openssh-server unison lightdm 
-#xfce4
 
 cat << EOT | sudo tee /etc/modprobe.d/raspi-blacklist.conf 
 blacklist brcmfmac
@@ -19,7 +18,7 @@ sudo systemctl enable ssh
 
 cat << EOT | sudo tee /etc/lightdm/lightdm.conf
 [SeatDefaults]
-autologin-user=mob
+autologin-user=$USER
 user-session=kodi
 EOT
 

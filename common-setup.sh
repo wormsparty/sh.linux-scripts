@@ -159,9 +159,61 @@ fi
 
 gsettings set org.gnome.desktop.privacy remember-recent-files false
 
+# 4. Raspberry
+if ! grep -q raspberry /etc/hosts; then
+	echo "172.22.22.77    raspberrypi" >> /etc/hosts
+else
+	echo "Ignoring modifying hosts, looks already done."
+fi
+
+if [ ! -f ~/.unison/mini2raspberry.prf ]; then	
+	cat << EOT > ~/.unison/mini2raspberry.prf
+# Unison preferences
+label = Backup Google drive folder
+root = /home/$USER/GdriveSync
+root = ssh://$USER@raspberrypi/GdriveSync
+sshargs = -C
+EOT
+
+	SSH_KEY=$(find ~/.ssh -name \*.pub)
+
+	if [ -z "${SSH_KEY}" ]; then
+		ssh-keygen -t ed25519 -C "wormsparty@gmail.com"
+		SSH_KEY=$(find ~/.ssh -name \*.pub)
+
+		if [ -z "${SSH_KEY}" ]; then
+			echo "Failed to find SSH key."
+			exit 1
+		fi
+	fi
+
+	cat << EOT > ./unison.cron
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=$USER
+HOME=/home/$USER/
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * command to be executed
+  *  1  *  *  * unison mini2raspberry -batch -sshargs='-i /home/$USER/.ssh/${SSH_KEY%.*}'
+EOT
+
+	crontab ./unison.cron
+else
+	echo "Ignoring unison config, looks already done."
+fi
+
 echo "Manual steps:"
 echo " 1. Install Gnome Shell extensions (Dash to Dock + Tray Icon Reloaded)"
-echo " 2. Install Obsidian from https://github.com/obsidianmd/obsidian-releases/releases"
-echo " 3. Install Retroarch from https://docs.libretro.com/development/retroarch/compilation/ubuntu/"
-echo " 4. Install the .slob files for GoldenDict, documents and others from recovery USB."
+echo " 2. Install Retroarch from https://docs.libretro.com/development/retroarch/compilation/ubuntu/"
+echo " 3. Setup profile 'mini2raspberry' in unison for Raspberry PI backup"
 echo "That's it !"
+
