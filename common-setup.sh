@@ -54,6 +54,60 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 	fi
 fi
 
+if [ ! -f /usr/local/bin/rpi ]; then
+	cat << EOT > sudo tee /usr/local/bin/rpi
+#!/bin/sh
+
+ssh raspberrypi
+EOT
+	sudo chmod +x /usr/local/bin/rpi
+fi
+
+if [ ! -f /usr/local/bin/rpi-upload ]; then
+	cat << EOT > sudo tee /usr/local/bin/rpi-upload
+#!/bin/sh
+
+echo "Is it a film (f), a TV show (t), or other (o)?"
+printf "> "
+read CHOICE
+	
+if [ "\$CHOICE" = "f" ]; then
+	echo "Copying to film directory..."
+	scp -r "\$@" raspberrypi:Video/Films
+elif [ "\$CHOICE" = "t" ]; then
+	echo "Copying to TV shows directory..."
+	scp -r "\$@" raspberrypi:Video/TVShows
+elif [ "\$CHOICE" = "o" ]; then
+	echo "Copying to Downloads directory..."
+	scp -r "\$@" raspberrypi:Video/Downloads
+else
+	echo "Unknown type: \$CHOICE, aborting"
+	exit 1
+fi
+
+if [ \$? -ne 0 ]; then
+	echo "Failed to upload."
+else
+	echo "Done!"
+fi
+EOT
+	sudo chmod +x /usr/local/bin/rpi-upload
+fi
+
+if [ ! -f /usr/local/bin/rename ]; then
+	cat << EOT > sudo tee /usr/local/bin/rename
+#!/bin/sh
+
+regex=\$1
+shift
+
+for x in "\$@"; do
+	mv "\$x" "\`echo "\$x" | sed "\$regex"\`"
+done
+EOT
+	sudo chmod +x /usr/local/bin/rename
+fi
+
 # 2. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	# To find your wifi kernel module: lspci -v, and the driver name is the last line
