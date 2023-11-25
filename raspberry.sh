@@ -2,6 +2,14 @@
 
 sudo apt-get install vim kodi kodi-peripheral-joystick openssh-server unison lightdm 
 
+cat << EOT | sudo tee /etc/locale.gen
+en_GB.UTF-8 UTF-8
+fr_CH.UTF-8 UTF-8
+EOT
+
+sudo locale-gen
+sudo localectl set-locale LANG=en_GB.UTF-8
+
 cat << EOT | sudo tee /etc/modprobe.d/raspi-blacklist.conf 
 blacklist brcmfmac
 blacklist brcmutil
