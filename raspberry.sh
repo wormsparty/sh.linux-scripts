@@ -1,17 +1,18 @@
 #!/bin/sh
 
-sudo apt-get install kodi kodi-peripheral-joystick openssh-server unison lightdm 
+sudo apt-get install vim kodi kodi-peripheral-joystick openssh-server unison lightdm 
 #xfce4
 
 cat << EOT | sudo tee /etc/modprobe.d/raspi-blacklist.conf 
 blacklist brcmfmac
 blacklist brcmutil
+blacklist bluetooth
 EOT
 
 sudo modprobe -r brcmfmac
 sudo modprobe -r brcmutil
 sudo depmod -ae
-sudo update-initramrf -u
+sudo update-initramfs -u
 
 sudo systemctl disable bluetooth
 sudo systemctl enable ssh
