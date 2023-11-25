@@ -79,7 +79,7 @@ elif [ "\$CHOICE" = "t" ]; then
 	scp -r "\$@" raspberrypi:Video/TVShows
 elif [ "\$CHOICE" = "o" ]; then
 	echo "Copying to Downloads directory..."
-	scp -r "\$@" raspberrypi:Video/Downloads
+	scp -r "\$@" raspberrypi:Downloads
 else
 	echo "Unknown type: \$CHOICE, aborting"
 	exit 1
