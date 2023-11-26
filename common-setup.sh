@@ -198,7 +198,7 @@ EOT
 	cat << EOT > ./unison.cron
 SHELL=/bin/sh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-MAILTO=$USER
+MAILTO=""
 HOME=/home/$USER/
 
 # For details see man 4 crontabs
