@@ -30,6 +30,7 @@ autologin-user=$USER
 user-session=kodi
 EOT
 
-echo "Manual steps:"
-echo "- Make sure you have a fixed IP."
-echo "- Update the PS1 color."
+# Replace default green to orange prompt 
+sed -i 's/\[\\033\[01;32m\\\]/\[\\033\[01;33m\\\]/g' ~/.bashrc
+
+echo "> Please make sure you have a fixed IP !"
