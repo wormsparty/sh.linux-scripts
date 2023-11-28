@@ -94,6 +94,19 @@ EOT
 	sudo chmod +x /usr/local/bin/rpi-upload
 fi
 
+if [ ! -f /usr/local/bin/rpi-sync ]; then
+	cat << EOT | sudo tee /usr/local/bin/rpi-sync
+#!/bin/sh
+
+SSH_KEY=\$(find $HOME/.ssh -name \*.pub)
+
+unison $HOME/GdriveSync ssh://$USER@raspberrypi/GdriveSync -batch -sshargs="-i \${SSH_KEY%.*}"
+unison $HOME/Videos ssh://$USER@raspberrypi/Videos -batch -sshargs="-i \${SSH_KEY%.*}"
+unison $HOME/Music ssh://$USER@raspberrypi/Music -batch -sshargs="-i \${SSH_KEY%.*}"
+EOT
+	sudo chmod +x /usr/local/bin/rpi-sync
+fi
+
 if [ ! -f /usr/local/bin/rename ]; then
 	cat << EOT > sudo tee /usr/local/bin/rename
 #!/bin/sh
@@ -195,10 +208,10 @@ EOT
 		ssh raspberrypi "echo '$(cat $SSH_KEY)' >> ~/.ssh/authorized_keys"
 	fi
 
-	cat << EOT > ./unison.cron
+	cat << EOT > ./unison-hourly.cron
 SHELL=/bin/sh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-MAILTO=$USER
+MAILTO=""
 HOME=/home/$USER/
 
 # For details see man 4 crontabs
@@ -211,17 +224,14 @@ HOME=/home/$USER/
 # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
 # |  |  |  |  |
 # *  *  *  *  * command to be executed
-  0  *  *  *  * unison mini2raspberry -batch -sshargs='-i /home/$USER/.ssh/${SSH_KEY%.*}'
+  0  *  *  *  * /usr/local/bin/rpi-sync
 EOT
-
-	crontab ./unison.cron
 else
 	echo "Ignoring unison config, looks already done."
 fi
 
 echo "Manual steps:"
 echo " 1. Install Gnome Shell extensions (Dash to Dock + Tray Icon Reloaded)"
-echo " 2. Install Retroarch from https://docs.libretro.com/development/retroarch/compilation/ubuntu/"
-echo " 3. Setup profile 'mini2raspberry' in unison for Raspberry PI backup"
+echo " 3. Run 'rpi-sync' and check that everything looks it. If it is, enable crontab with 'ctonrab ./unison-hourly.cron'."
 echo "That's it !"
 
