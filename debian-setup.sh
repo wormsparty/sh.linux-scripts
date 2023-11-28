@@ -20,7 +20,7 @@ else
 fi
 
 # 2. Install packages
-sudo apt-get install curl rclone gimp inkscape vlc transmission-gtk blender audacious signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim manuskript
+sudo apt-get install curl rclone gimp inkscape vlc transmission-gtk blender gnome-music signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim manuskript
 
 if [ ! -f /usr/local/bin/up ]; then
 	cat << EOT | sudo tee -a /usr/local/bin/up
