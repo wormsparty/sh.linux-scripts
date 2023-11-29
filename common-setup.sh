@@ -176,6 +176,14 @@ style=kvantum-dark
 EOT
 fi
 
+if ! grep -q "XDG_SESSION_TYPE" ~/.profile; then
+	cat << EOT | tee -a ~/.profile
+if [ "\$XDG_SESSION_TYPE" == "wayland" ]; then
+  export MOZ_ENABLE_WAYLAND=1
+fi
+EOT
+fi
+
 gsettings set org.gnome.desktop.privacy remember-recent-files false
 
 # 4. Raspberry
@@ -185,29 +193,21 @@ else
 	echo "Ignoring modifying hosts, looks already done."
 fi
 
-if [ ! -f ~/.unison/mini2raspberry.prf ]; then	
-	cat << EOT > ~/.unison/mini2raspberry.prf
-# Unison preferences
-label = Backup Google drive folder
-root = /home/$USER/GdriveSync
-root = ssh://$USER@raspberrypi/GdriveSync
-sshargs = -C
-EOT
+SSH_KEY=$(find ~/.ssh -name \*.pub)
 
+if [ -z "${SSH_KEY}" ]; then
+	ssh-keygen -t ed25519 -C "wormsparty@gmail.com"
 	SSH_KEY=$(find ~/.ssh -name \*.pub)
 
 	if [ -z "${SSH_KEY}" ]; then
-		ssh-keygen -t ed25519 -C "wormsparty@gmail.com"
-		SSH_KEY=$(find ~/.ssh -name \*.pub)
-
-		if [ -z "${SSH_KEY}" ]; then
-			echo "Failed to find SSH key."
-			exit 1
-		fi
-
-		ssh raspberrypi "echo '$(cat $SSH_KEY)' >> ~/.ssh/authorized_keys"
+		echo "Failed to find SSH key."
+		exit 1
 	fi
 
+	ssh raspberrypi "echo '$(cat $SSH_KEY)' >> ~/.ssh/authorized_keys"
+fi
+
+if [ ! -f ./unison-hourly.cron ]; then
 	cat << EOT > ./unison-hourly.cron
 SHELL=/bin/sh
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
