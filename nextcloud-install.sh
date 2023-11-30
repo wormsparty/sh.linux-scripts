@@ -38,18 +38,18 @@ sudo apt install apache2 php libapache2-mod-php php-mysql php-common php-gd php-
 cat << EOT | sudo tee /etc/apache2/sites-available/${DOMAIN}.conf
 <VirtualHost *:80>
     ServerAdmin admin@${DOMAIN}
-    DocumentRoot /var/www/html/${DOMAIN}/
+    DocumentRoot ${APACHE_DIR}/html/${DOMAIN}/
     ServerName ${DOMAIN}
 
-    <Directory /var/www/html/${DOMAIN}/>
+    <Directory ${APACHE_DIR}/html/${DOMAIN}/>
         Options +FollowSymlinks
         AllowOverride All
         Require all granted
         <IfModule mod_dav.c>
             Dav off
         </IfModule>
-        SetEnv HOME /var/www/html/${DOMAIN}
-        SetEnv HTTP_HOME /var/www/html/${DOMAIN}
+        SetEnv HOME ${APACHE_DIR}/html/${DOMAIN}
+        SetEnv HTTP_HOME ${APACHE_DIR}/html/${DOMAIN}
     </Directory>
 
     ErrorLog \${APACHE_LOG_DIR}/error.log
