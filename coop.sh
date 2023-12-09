@@ -1,20 +1,26 @@
 #!/bin/bash
 
 cd "`dirname $0`"
-DIR_CO_OP_CONT=./controller_blacklists
 
-# Ask the user for which controller to use 
-rm -rf $DIR_CO_OP_CONT
-mkdir $DIR_CO_OP_CONT
+#
+# List joysticks, we expect to have exactly 2.
+# It doesn't matter which one we attach to which window, since the executable is stictly
+# the same for both, it will have the same configuration / state
+#
 CONTROLLER_LIST=$(ls -l /dev/input/by-id/ | grep joystick |  awk '{gsub("-joystick", ""); gsub("-event", ""); print $9}' | uniq)
-CONTROLLER_1=$(zenity --list --title="Choose controller for player 1" --text="" --column=Controllers \ $CONTROLLER_LIST)
-CONTROLLER_2=$(zenity --list --title="Choose controller for player 2" --text="" --column=Controllers \ $CONTROLLER_LIST)
-echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_1 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) >> $DIR_CO_OP_CONT/Player1_Controller_Blacklist
-echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_2 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) >> $DIR_CO_OP_CONT/Player2_Controller_Blacklist 
+CONTROLLER_COUNT=$(echo "$CONTROLLER_LIST" | wc -l)
 
-GAMERUN="/home/mob/Documents/sm64ex-coop/build/us_pc/run.sh"
-WIDTH=960
-HEIGHT=1080
+if [ $CONTROLLER_COUNT -ne 2 ]; then
+	echo "Found $CONTROLLER_COUNT joysticks, please have exactly 2 plugged in."
+	exit 1
+fi
 
-firejail --noprofile $(cat $DIR_CO_OP_CONT/Player1_Controller_Blacklist ) "$GAMERUN" &
-firejail --noprofile $(cat $DIR_CO_OP_CONT/Player2_Controller_Blacklist ) "$GAMERUN" &
+CONTROLLER_1=$(echo $CONTROLLER_LIST | sed -n '1 p')
+CONTROLLER_2=$(echo $CONTROLLER_LIST | sed -n '2 p')
+BLACKLIST_1=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_1 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) )
+BLACKLIST_2=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_2 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) ) 
+
+EXEC="/home/mob/Documents/sm64ex-coop/build/us_pc/run.sh"
+
+firejail --noprofile $BLACKLIST_1 "$EXEC" &
+firejail --noprofile $BLACKLIST_2 "$EXEC" &
