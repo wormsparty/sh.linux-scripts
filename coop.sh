@@ -4,10 +4,22 @@
 # This scripts allows to run the same executable twice, and blacklist the joystick assigned to the other window.
 # This supposes the executable can be run in windowed mode. If not, you may want to wrap it in a "weston" window.
 #
-# First, list the joysticks, we expect to have exactly 2.
-# It doesn't matter which one we attach to which window, since the executable is strictly
-# the same for both, it will have the same configuration / state.
+# Since we expect to have a windowed mode, we can't really expect the windows to be borderless, but it's not impossible.
+# For Gnome you can install the "Hide top bar" extension. If you have access to the code of an SDL application,
+# you could hide the border with SDL_SetWindowBordered(window, 0);
+# 
+# Use win+left and win+right to move the windows to use the left and right half, they may both start at the same position
+# You an use Alt+F7 to move your windows to the desired positions and Alt+F8 to resize them.
 #
+# Let's start by listing the joysticks, we expect to have exactly 2.
+# It doesn't matter which one we attach to which window, since the executable is strictly
+# the same for both, it will have the same configuration on startup.
+#
+if [ $? -eq 1 ]; then
+	echo "$0 executable"
+ 	exit 1
+fi
+
 CONTROLLER_LIST=$(ls -l /dev/input/by-id/ | grep joystick |  awk '{gsub("-joystick", ""); gsub("-event", ""); print $9}' | uniq)
 CONTROLLER_COUNT=$(echo "$CONTROLLER_LIST" | wc -l)
 
@@ -22,6 +34,5 @@ BLACKLIST_1=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROL
 BLACKLIST_2=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_2 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) ) 
 
 # Run the executable twice. 
-# Note: Use win+left and win+right to move the windows to use the left and right half, they may both start at the same position
 firejail --noprofile $BLACKLIST_1 $@ &
 firejail --noprofile $BLACKLIST_2 $@ &
