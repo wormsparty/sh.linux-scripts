@@ -9,7 +9,7 @@
 # you could hide the border with SDL_SetWindowBordered(window, 0);
 # 
 # Use win+left and win+right to move the windows to use the left and right half, they may both start at the same position
-# You an use Alt+F7 to move your windows to the desired positions and Alt+F8 to resize them.
+# You can use Alt+F7 to move your windows to the desired positions and Alt+F8 to resize them.
 #
 # Let's start by listing the joysticks, we expect to have exactly 2.
 # It doesn't matter which one we attach to which window, since the executable is strictly
