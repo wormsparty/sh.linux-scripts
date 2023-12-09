@@ -22,5 +22,7 @@ BLACKLIST_2=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROL
 
 EXEC="/home/mob/Documents/sm64ex-coop/build/us_pc/run.sh"
 
+# Run the game twice. 
+# Note: Use win+left and win+right to move the windows to use the left and right half, they may both start at the same position
 firejail --noprofile $BLACKLIST_1 "$EXEC" &
 firejail --noprofile $BLACKLIST_2 "$EXEC" &
