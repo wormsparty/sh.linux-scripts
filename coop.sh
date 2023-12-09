@@ -15,8 +15,8 @@
 # It doesn't matter which one we attach to which window, since the executable is strictly
 # the same for both, it will have the same configuration on startup.
 #
-if [ $? -eq 1 ]; then
-	echo "$0 executable"
+if [ $# -eq 0 ]; then
+	echo "$0 executable (..args)"
  	exit 1
 fi
 
@@ -28,8 +28,8 @@ if [ $CONTROLLER_COUNT -ne 2 ]; then
 	exit 1
 fi
 
-CONTROLLER_1=$(echo $CONTROLLER_LIST | sed -n '1 p')
-CONTROLLER_2=$(echo $CONTROLLER_LIST | sed -n '2 p')
+CONTROLLER_1=$(echo "$CONTROLLER_LIST" | sed -n '1 p')
+CONTROLLER_2=$(echo "$CONTROLLER_LIST" | sed -n '2 p')
 BLACKLIST_1=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_1 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) )
 BLACKLIST_2=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_2 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) ) 
 
