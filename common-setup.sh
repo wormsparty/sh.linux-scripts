@@ -27,9 +27,9 @@ if [ -n "\${folder}" ]; then
 fi
 
 if [ "\$mode" = "pull" ]; then
-	rclone sync gdrive:\${folder} ~/GdriveSync/\${folder} -i --exclude //Notes/.obsidian/**
+	rclone sync gdrive:\${folder} ~/GdriveSync/\${folder} -i --drive-import-formats=docx
 elif [ "\$mode" = "push" ]; then
-	rclone sync ~/GdriveSync/\${folder} gdrive:/\${folder} -i --exclude //Notes/.obsidian/**
+	rclone sync ~/GdriveSync/\${folder} gdrive:/\${folder} -i --drive-import-formats=docx
 else
 	echo "Unknown mode \$mode"
 	exit 1
