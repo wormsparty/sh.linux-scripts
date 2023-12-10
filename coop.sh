@@ -25,6 +25,7 @@ CONTROLLER_COUNT=$(echo "$CONTROLLER_LIST" | wc -l)
 
 if [ $CONTROLLER_COUNT -ne 2 ]; then
 	echo "Found $CONTROLLER_COUNT joysticks, please have exactly 2 plugged in."
+	zenity --error --text="Found $CONTROLLER_COUNT joysticks, please have exactly 2 plugged in."
 	exit 1
 fi
 
