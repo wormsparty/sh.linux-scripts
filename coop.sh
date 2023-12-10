@@ -21,7 +21,7 @@ if [ $# -eq 0 ]; then
 fi
 
 CONTROLLER_LIST=$(ls -l /dev/input/by-id/ | grep joystick |  awk '{gsub("-joystick", ""); gsub("-event", ""); print $9}' | uniq)
-CONTROLLER_COUNT=$(echo "$CONTROLLER_LIST" | wc -l)
+CONTROLLER_COUNT=$(echo "$CONTROLLER_LIST" | sed '/^\s*$/d' | wc -l)
 
 if [ $CONTROLLER_COUNT -ne 2 ]; then
 	echo "Found $CONTROLLER_COUNT joysticks, please have exactly 2 plugged in."
