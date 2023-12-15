@@ -1,0 +1,7 @@
+#!/bin/sh
+
+SSH_KEY=$(find /home/mob/.ssh -name \*.pub)
+
+unison /home/mob/GdriveSync ssh://mob@raspberrypi/GdriveSync -sshargs="-i ${SSH_KEY%.*} -C"
+unison /home/mob/Videos ssh://mob@raspberrypi/Videos -sshargs="-i ${SSH_KEY%.*} -C"
+unison /home/mob/Music ssh://mob@raspberrypi/Music -sshargs="-i ${SSH_KEY%.*} -C"

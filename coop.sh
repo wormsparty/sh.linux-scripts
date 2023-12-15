@@ -36,4 +36,5 @@ BLACKLIST_2=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROL
 
 # Run the executable twice. 
 firejail --noprofile $BLACKLIST_1 $@ &
+sleep 1
 firejail --noprofile $BLACKLIST_2 $@ &

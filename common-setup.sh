@@ -7,40 +7,6 @@
 # 1. rclone service for Google Drive
 mkdir -p ~/GdriveSync
 
-if [ ! -f /usr/local/bin/gsync ]; then
-	cat << EOT | sudo tee -a /usr/local/bin/gsync
-#!/bin/sh
-
-mode=\$1
-folder=\$2
-
-if test \$# -ne 1 && test \$# -ne 2; then
-	echo "Usage: \$(basename \$0) pull|push (folder)"
-	exit 1
-fi
-
-if [ -n "\${folder}" ]; then
-	if [ ! -d "\$HOME/GdriveSync/\${folder}" ]; then
-		echo "Folder not found: \$HOME/GdriveSync/\$folder"
-		exit 1
-	fi
-fi
-
-if [ "\$mode" = "pull" ]; then
-	rclone sync gdrive:\${folder} ~/GdriveSync/\${folder} -i --drive-import-formats=docx
-elif [ "\$mode" = "push" ]; then
-	rclone sync ~/GdriveSync/\${folder} gdrive:/\${folder} -i --drive-import-formats=docx
-else
-	echo "Unknown mode \$mode"
-	exit 1
-fi
-EOT
-
-	sudo chmod +x /usr/local/bin/gsync
-else
-	echo "gsync seems to be already present, skipping."
-fi
-
 mkdir -p "${HOME}/.config/rclone"
 touch "${HOME}/.config/rclone/rclone.conf"
 
@@ -54,72 +20,11 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 	fi
 fi
 
-if [ ! -f /usr/local/bin/rpi ]; then
-	cat << EOT > sudo tee /usr/local/bin/rpi
-#!/bin/sh
-
-ssh raspberrypi
-EOT
-	sudo chmod +x /usr/local/bin/rpi
-fi
-
-if [ ! -f /usr/local/bin/rpi-upload ]; then
-	cat << EOT > sudo tee /usr/local/bin/rpi-upload
-#!/bin/sh
-
-echo "Is it a film (f), a TV show (t), or other (o)?"
-printf "> "
-read CHOICE
-	
-if [ "\$CHOICE" = "f" ]; then
-	echo "Copying to film directory..."
-	scp -r "\$@" raspberrypi:Video/Films
-elif [ "\$CHOICE" = "t" ]; then
-	echo "Copying to TV shows directory..."
-	scp -r "\$@" raspberrypi:Video/TVShows
-elif [ "\$CHOICE" = "o" ]; then
-	echo "Copying to Downloads directory..."
-	scp -r "\$@" raspberrypi:Downloads
-else
-	echo "Unknown type: \$CHOICE, aborting"
-	exit 1
-fi
-
-if [ \$? -ne 0 ]; then
-	echo "Failed to upload."
-else
-	echo "Done!"
-fi
-EOT
-	sudo chmod +x /usr/local/bin/rpi-upload
-fi
-
-if [ ! -f /usr/local/bin/rpi-sync ]; then
-	cat << EOT | sudo tee /usr/local/bin/rpi-sync
-#!/bin/sh
-
-SSH_KEY=\$(find $HOME/.ssh -name \*.pub)
-
-unison $HOME/GdriveSync ssh://$USER@raspberrypi/GdriveSync -batch -sshargs="-i \${SSH_KEY%.*}"
-unison $HOME/Videos ssh://$USER@raspberrypi/Videos -batch -sshargs="-i \${SSH_KEY%.*}"
-unison $HOME/Music ssh://$USER@raspberrypi/Music -batch -sshargs="-i \${SSH_KEY%.*}"
-EOT
-	sudo chmod +x /usr/local/bin/rpi-sync
-fi
-
-if [ ! -f /usr/local/bin/rename ]; then
-	cat << EOT > sudo tee /usr/local/bin/rename
-#!/bin/sh
-
-regex=\$1
-shift
-
-for x in "\$@"; do
-	mv "\$x" "\`echo "\$x" | sed "\$regex"\`"
+for x in scripts/*; do
+	if [ ! -f /usr/local/bin/$x ]; then
+		sudo ln -s "$PWD/$x" "/usr/local/bin/$(basename $x)"
+	fi
 done
-EOT
-	sudo chmod +x /usr/local/bin/rename
-fi
 
 # 2. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+mode=$1
+folder=$2
+
+if test $# -ne 1 && test $# -ne 2; then
+	echo "Usage: $(basename $0) pull|push (folder)"
+	exit 1
+fi
+
+if [ -n "${folder}" ]; then
+	if [ ! -d "$HOME/GdriveSync/${folder}" ]; then
+		echo "File or folder not found: $HOME/GdriveSync/$folder"
+		exit 1
+	fi
+fi
+
+OPTIONS="-i --drive-import-formats=docx"
+
+if [ "$mode" = "sync" ]; then
+	rclone bisync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS}
+if [ "$mode" = "pull" ]; then
+	rclone sync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS} 
+elif [ "$mode" = "push" ]; then
+	rclone sync ~/GdriveSync/${folder} gdrive:/${folder} ${OPTIONS}
+else
+	echo "Unknown mode $mode"
+	exit 1
+fi

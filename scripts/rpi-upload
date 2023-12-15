@@ -1,0 +1,25 @@
+#!/bin/sh
+
+echo "Is it a film (f), a TV show (t) or other (o)?"
+printf "> "
+read CHOICE
+	
+if [ "$CHOICE" = "f" ]; then
+	echo "Copying to film directory..."
+	scp -r "$@" raspberrypi:Videos/Films
+elif [ "$CHOICE" = "t" ]; then
+	echo "Copying to TV shows directory..."
+	scp -r "$@" raspberrypi:Videos/TVShows
+elif [ "$CHOICE" = "o" ]; then
+	echo "Copying to Downloads directory..."
+	scp -r "$@" raspberrypi:Downloads
+else
+	echo "Unknown type: $CHOICE, aborting"
+	exit 1
+fi
+
+if [ $? -ne 0 ]; then
+	echo "Failed to upload."
+else
+	echo "Done!"
+fi
