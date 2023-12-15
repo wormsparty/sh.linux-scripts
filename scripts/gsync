@@ -4,7 +4,7 @@ mode=$1
 folder=$2
 
 if test $# -ne 1 && test $# -ne 2; then
-	echo "Usage: $(basename $0) pull|push (folder)"
+	echo "Usage: $(basename $0) pull|push|sync|sync-init (folder)"
 	exit 1
 fi
 
@@ -19,7 +19,9 @@ OPTIONS="-i --drive-import-formats=docx"
 
 if [ "$mode" = "sync" ]; then
 	rclone bisync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS}
-if [ "$mode" = "pull" ]; then
+elif [ "$mode" = "sync-init" ]; then
+	rclone bisync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS} --resync
+elif [ "$mode" = "pull" ]; then
 	rclone sync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS} 
 elif [ "$mode" = "push" ]; then
 	rclone sync ~/GdriveSync/${folder} gdrive:/${folder} ${OPTIONS}
