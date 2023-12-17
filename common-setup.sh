@@ -68,6 +68,9 @@ else
 	echo "Ignoring modifying environment, looks already done."
 fi
 
+# Prevent oversized journal files
+sudo sed -i 's/#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
+
 if ! grep -q "nvim" ~/.bashrc; then
 	echo "alias vim='nvim'" >> ~/.bashrc
 fi
