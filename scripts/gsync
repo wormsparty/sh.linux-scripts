@@ -17,11 +17,7 @@ fi
 
 OPTIONS="-i --drive-import-formats=docx"
 
-if [ "$mode" = "sync" ]; then
-	rclone bisync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS}
-elif [ "$mode" = "sync-init" ]; then
-	rclone bisync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS} --resync
-elif [ "$mode" = "pull" ]; then
+if [ "$mode" = "pull" ]; then
 	rclone sync gdrive:${folder} ~/GdriveSync/${folder} ${OPTIONS} 
 elif [ "$mode" = "push" ]; then
 	rclone sync ~/GdriveSync/${folder} gdrive:/${folder} ${OPTIONS}
