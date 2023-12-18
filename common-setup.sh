@@ -21,8 +21,19 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 fi
 
 for x in scripts/*; do
-	if [ ! -f /usr/local/bin/$x ]; then
-		sudo ln -s "$PWD/$x" "/usr/local/bin/$(basename $x)"
+	SCRIPT=$(basename $x)
+
+	if [ ! -L "/usr/local/bin/$SCRIPT" ]; then
+		sudo ln -s "$PWD/$x" "/usr/local/bin/$SCRIPT"
+		echo "Added symlink to $x."
+	else
+		if [ ! -e "/usr/local/bin/$SCRIPT" ]; then
+			sudo rm "/usr/local/bin/$SCRIPT"
+			sudo ln -s "$PWD/$x" "/usr/local/bin/$SCRIPT"
+			echo "Replaced symlink of $SCRIPT."
+		else
+			echo "Script $SCRIPT already exists."
+		fi
 	fi
 done
 
