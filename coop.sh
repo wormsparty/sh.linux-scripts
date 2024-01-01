@@ -20,7 +20,7 @@ if [ $# -eq 0 ]; then
  	exit 1
 fi
 
-CONTROLLER_LIST=$(ls -l /dev/input/by-id/ | grep joystick |  awk '{gsub("-joystick", ""); gsub("-event", ""); print $9}' | uniq)
+CONTROLLER_LIST=$(ls -l /dev/input/by-path/ | grep joystick |  awk '{gsub("-joystick", ""); gsub("-event", ""); print $9}' | uniq)
 CONTROLLER_COUNT=$(echo "$CONTROLLER_LIST" | sed '/^\s*$/d' | wc -l)
 
 if [ $CONTROLLER_COUNT -ne 2 ]; then
@@ -31,8 +31,8 @@ fi
 
 CONTROLLER_1=$(echo "$CONTROLLER_LIST" | sed -n '1 p')
 CONTROLLER_2=$(echo "$CONTROLLER_LIST" | sed -n '2 p')
-BLACKLIST_1=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_1 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) )
-BLACKLIST_2=$(echo $(ls -l /dev/input/by-id/ | grep joystick | grep -wv $CONTROLLER_2 | awk '{print "--blacklist=/dev/input/by-id/" $9;}' ) ) 
+BLACKLIST_1=$(echo $(ls -l /dev/input/by-path/ | grep joystick | grep -wv $CONTROLLER_1 | awk '{print "--blacklist=/dev/input/by-path/" $9;}' ) )
+BLACKLIST_2=$(echo $(ls -l /dev/input/by-path/ | grep joystick | grep -wv $CONTROLLER_2 | awk '{print "--blacklist=/dev/input/by-path/" $9;}' ) ) 
 
 # Run the executable twice. 
 firejail --noprofile $BLACKLIST_1 $@ &
