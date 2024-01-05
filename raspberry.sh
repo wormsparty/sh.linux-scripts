@@ -28,12 +28,27 @@ fi
 sudo systemctl disable bluetooth
 sudo systemctl enable ssh
 
-if ! grep kodi /etc/lightdm/lightdm.conf; then
-	cat << EOT | sudo tee /etc/lightdm/lightdm.conf
-[SeatDefaults]
-autologin-user=$USER
-user-session=kodi
+if ! grep kodi /lib/systemd/system/kodi.service; then
+	cat << EOT | sudo tee /lib/systemd/system/kodi.service
+[Unit]
+Description = Kodi Media Center
+After = remote-fs.target network-online.target
+Wants = network-online.target
+
+[Service]
+User = ${USER}
+Group = ${USER}
+Type = simple
+ExecStart = /usr/bin/kodi-standalone
+Restart = on-abort
+RestartSec = 5
+
+[Install]
+WantedBy = multi-user.target
 EOT
+
+	sudo systemctl disable lightdm
+	sudo systemctl enable kodi.service
 fi
 
 # Replace default green to orange prompt 
