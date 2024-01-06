@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo apt-get install vim kodi kodi-peripheral-joystick openssh-server unison lightdm 
+sudo apt-get install vim kodi kodi-peripheral-joystick openssh-server unison 
 
 if ! grep UTF-8 /etc/locale.gen; then
 	cat << EOT | sudo tee /etc/locale.gen
