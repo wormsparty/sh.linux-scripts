@@ -22,16 +22,5 @@ fi
 # 2. Install packages
 sudo apt-get install curl rclone gimp inkscape vlc transmission-gtk blender gnome-music signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim manuskript
 
-if [ ! -f /usr/local/bin/up ]; then
-	cat << EOT | sudo tee -a /usr/local/bin/up
- #!/bin/sh
-
-sudo apt-get update
-sudo apt-get dist-upgrade
-sudo apt-get autoremove
-EOT
-	sudo chmod +x /usr/local/bin/up
-fi
-
 # 3. Call the common script for non-specific configuration
 sh "`dirname $0`/common-setup.sh"
