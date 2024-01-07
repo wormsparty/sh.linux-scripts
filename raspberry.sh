@@ -28,7 +28,7 @@ fi
 sudo systemctl disable bluetooth
 sudo systemctl enable ssh
 
-if ! grep kodi /lib/systemd/system/kodi.service; then
+if [ ! -f /lib/systemd/system/kodi.service ]; then
 	cat << EOT | sudo tee /lib/systemd/system/kodi.service
 [Unit]
 Description = Kodi Media Center
