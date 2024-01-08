@@ -54,4 +54,7 @@ fi
 # Replace default green to orange prompt 
 sed -i 's/\[\\033\[01;32m\\\]/\[\\033\[01;33m\\\]/g' ~/.bashrc
 
-echo "> Please make sure you have a fixed IP !"
+sudo cp config/rpi-wired.nmconnection "/etc/NetworkManager/system-connections/Wired connection 1.nmconnection"
+sudo systemctl restart NetworkManager
+
+echo "Done!"
