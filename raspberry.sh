@@ -57,4 +57,6 @@ sed -i 's/\[\\033\[01;32m\\\]/\[\\033\[01;33m\\\]/g' ~/.bashrc
 sudo cp config/rpi-wired.nmconnection "/etc/NetworkManager/system-connections/Wired connection 1.nmconnection"
 sudo systemctl restart NetworkManager
 
+sudo cp config/joystick.xml /usr/share/kodi/system/keymaps/joystick.xml
+
 echo "Done!"
