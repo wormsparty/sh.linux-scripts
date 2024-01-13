@@ -1,0 +1,19 @@
+[connection]
+id=Wired connection 1
+uuid=53c2b66c-a2a1-305d-8809-23438e003aff
+type=ethernet
+autoconnect-priority=-999
+interface-name=eth0
+timestamp=1700904172
+
+[ethernet]
+
+[ipv4]
+address1=172.22.22.77/32,172.22.22.1
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=auto
+
+[proxy]
