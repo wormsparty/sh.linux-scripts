@@ -62,26 +62,12 @@ else
 fi
 
 # 3. Various config
-if ! grep -q QT_QPA_PLATFORMTHEME /etc/environment; then
-	echo "export QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
-else
-	echo "Ignoring modifying environment, looks already done."
-fi
 
 # Prevent oversized journal files
 sudo sed -i 's/#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
 
 if ! grep -q "nvim" ~/.bashrc; then
 	echo "alias vim='nvim'" >> ~/.bashrc
-fi
-
-if [ ! -d ~/.config/qt5ct ]; then
-	mkdir -p ~/.config/qt5ct
-
-	cat <<EOT >> ~/.config/qt5ct/qt5ct.conf
-[Appearance]
-style=kvantum-dark
-EOT
 fi
 
 if ! grep -q "XDG_SESSION_TYPE" ~/.profile; then
