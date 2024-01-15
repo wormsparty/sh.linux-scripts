@@ -4,6 +4,8 @@
 # This is the part that is not specific to a particular Linux distribution. #
 #############################################################################
 
+cd "`dirname $0`"
+
 # 1. rclone service for Google Drive
 mkdir -p ~/GdriveSync
 
@@ -20,22 +22,9 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 	fi
 fi
 
-for x in scripts/*; do
-	SCRIPT=$(basename $x)
-
-	if [ ! -L "/usr/local/bin/$SCRIPT" ]; then
-		sudo ln -s "$PWD/$x" "/usr/local/bin/$SCRIPT"
-		echo "Added symlink to $x."
-	else
-		if [ ! -e "/usr/local/bin/$SCRIPT" ]; then
-			sudo rm "/usr/local/bin/$SCRIPT"
-			sudo ln -s "$PWD/$x" "/usr/local/bin/$SCRIPT"
-			echo "Replaced symlink of $SCRIPT."
-		else
-			echo "Script $SCRIPT already exists."
-		fi
-	fi
-done
+if [ ! -d ~/.local/bin ]; then
+	ln -s "$PWD/bin" ~/.local/bin
+fi
 
 # 2. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then

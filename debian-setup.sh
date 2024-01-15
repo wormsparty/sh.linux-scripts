@@ -4,6 +4,8 @@
 # This is the part that is specific to Debian #
 ###############################################
 
+cd "`dirname $0`"
+
 # 0. Check we are not admin
 if [ "`id -u`" -eq 0 ]; then
 	echo "Do NOT run this script as root. It will call 'sudo' as needed."
@@ -20,7 +22,7 @@ else
 fi
 
 # 2. Install packages
-sudo apt-get install curl rclone gimp inkscape vlc transmission-gtk blender gnome-music signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim manuskript
+sudo apt-get install curl rclone gimp inkscape totem transmission-gtk blender gnome-music signal-desktop libreoffice-writer firefox-esr qt5ct qt5-style-kvantum neovim manuskript
 
 # 3. Call the common script for non-specific configuration
-sh "`dirname $0`/common-setup.sh"
+sh ./common-setup.sh
