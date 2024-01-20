@@ -1,5 +1,8 @@
  #!/bin/sh
 
-sudo apt-get update
+if [ "x$1" != "x1" ]; then
+	sudo apt-get update
+fi
+
 sudo apt-get dist-upgrade
 sudo apt-get autoremove
