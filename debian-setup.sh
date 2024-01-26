@@ -22,7 +22,7 @@ else
 fi
 
 # 2. Install packages
-sudo apt-get install curl rclone gimp inkscape totem transmission-gtk blender gnome-music signal-desktop libreoffice-writer firefox-esr vim
+sudo apt-get install curl rclone krita totem transmission-gtk blender gnome-music signal-desktop libreoffice-writer firefox-esr vim
 
 # 3. Call the common script for non-specific configuration
 sh ./common-setup.sh
