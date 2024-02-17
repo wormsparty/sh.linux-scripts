@@ -80,6 +80,10 @@ fi
 
 gsettings set org.gnome.desktop.privacy remember-recent-files false
 
+# Bluray decoding
+mkdir -p ~/.config/aacs
+wget -O ~/.config/aacs/KEYDB.cfg https://code.videolan.org/videolan/libaacs/-/raw/master/KEYDB.cfg
+
 # 4. Raspberry
 if ! grep -q raspberry /etc/hosts; then
 	echo "172.22.22.77    raspberrypi" | sudo tee -a /etc/hosts
