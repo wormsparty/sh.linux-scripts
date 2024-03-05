@@ -2,6 +2,7 @@
 
 if which dnf; then
 	sudo dnf upgrade
+	sudo dnf remove --oldinstallonly
 	sudo dnf autoremove
 	exit
 fi
