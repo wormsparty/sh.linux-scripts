@@ -18,7 +18,7 @@ if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 
 	if ! grep -q '\[gdrive\]' "${HOME}/.config/rclone/rclone.conf"; then
 		echo "'gdrive' doesn't seem to be configured. Please configure it and re-run this script"
-		exit 1
+		#exit 1
 	fi
 fi
 
@@ -29,9 +29,17 @@ fi
 # 2. Disable wifi & bluetooth
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	# To find your wifi kernel module: lspci -v, and the driver name is the last line
-	sudo bash -c "echo 'blacklist rtw88_8821ce' >> /etc/modprobe.d/rtw88_8821ce.conf"
-	sudo bash -c "echo 'blacklist mwifiex_pcie' >> /etc/modprobe.d/mwifiex_pcie.conf"
-	sudo bash -c "echo 'blacklist bluetooth' >> /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist rtw88_8821ce' > /etc/modprobe.d/rtw88_8821ce.conf"
+	sudo bash -c "echo 'blacklist mwifiex_pcie' > /etc/modprobe.d/mwifiex_pcie.conf"
+	sudo bash -c "echo 'blacklist iwlwifi' > /etc/modprobe.d/iwlwifi.conf"
+	
+	sudo bash -c "echo 'blacklist bluetooth'  > /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'install bluetooth /bin/true' >> /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist btrtl' >> /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist btmtk' >> /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist btintel' >> /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist btbcm' >> /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist btusb' >> /etc/modprobe.d/bluetooth.conf"
 
 	if which dracut; then
 		# OpenSUSE, Fedora, etc.
@@ -53,6 +61,7 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	sudo modprobe -r rtw88_8821ce
 	sudo modprobe -r mwifiex_pcie
 	sudo modprobe -r bluetooth
+	sudo modprobe -r iwlwifi
 	sudo bash -c "echo 'iface wlp2s0 inet manual' > /etc/network/interfaces.d/no-wifi" 
 	sudo systemctl disable bluetooth.service
 	sudo sed -i 's/AutoEnable=true/AutoEnable=false/' /etc/bluetooth/main.conf
@@ -65,10 +74,6 @@ fi
 
 # Prevent oversized journal files
 sudo sed -i 's/#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
-
-if ! grep -q "nvim" ~/.bashrc; then
-	echo "alias vim='nvim'" >> ~/.bashrc
-fi
 
 if ! grep -q "XDG_SESSION_TYPE" ~/.profile; then
 	cat << EOT | tee -a ~/.profile

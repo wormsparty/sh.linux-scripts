@@ -1,5 +1,11 @@
  #!/bin/sh
 
+if which dnf; then
+	sudo dnf upgrade
+	sudo dnf autoremove
+	exit
+fi
+
 if [ "$1" != "1" ]; then
 	sudo apt-get update
 fi
