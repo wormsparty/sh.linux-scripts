@@ -22,7 +22,7 @@ else
 fi
 
 # 2. Install packages
-sudo apt install curl rclone krita vlc transmission-gtk blender gnome-music signal-desktop libreoffice-writer vim
+sudo apt install curl rclone krita vlc transmission-gtk blender gnome-music signal-desktop libreoffice-writer vim unison-gtk
 
 # 3. Call the common script for non-specific configuration
 sh ./common-setup.sh
