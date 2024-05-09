@@ -1,10 +1,14 @@
  #!/bin/sh
 
-if which dnf; then
+if which dnf > /dev/null; then
 	sudo dnf upgrade
 	sudo dnf remove --oldinstallonly
 	sudo dnf autoremove
 	exit
+fi
+
+if which snap > /dev/null; then
+	sudo snap refresh
 fi
 
 if [ "$1" != "1" ]; then
