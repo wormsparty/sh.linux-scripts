@@ -1,3 +1,5 @@
 #!/bin/sh
 
-ffmpeg -i "$1" -ab 320k -map_metadata 0 -id3v2_version 3 "${1%.*}.mp3"
+for x in "$@"; do
+	ffmpeg -i "$x" -ab 320k -map_metadata 0 -id3v2_version 3 "${x%.*}.mp3"
+done
