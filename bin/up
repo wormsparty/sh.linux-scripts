@@ -13,6 +13,7 @@ fi
 
 if which flatpak > /dev/null; then
 	sudo flatpak update
+	sudo flatpak uninstall --unused --delete-data
 fi
 
 if [ "$1" != "1" ]; then
