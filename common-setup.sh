@@ -142,6 +142,7 @@ StartupWMClass=Ollama
 Comment=Ollama avec llama3
 Categories=Game;
 EOT
+	cp ./icons/* ~/.local/share/icons/ 
 	update-desktop-database ~/.local/share/applications 
 fi	
 
