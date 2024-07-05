@@ -45,6 +45,4 @@ sudo systemctl restart NetworkManager
 
 sudo cp config/joystick.xml /usr/share/kodi/system/keymaps/joystick.xml
 
-echo "Add manually 'hdmi_safe=1' in /boot/firmware/config.txt, I didn't write a proper script to add it yet :))"
-
 echo "Done!"
