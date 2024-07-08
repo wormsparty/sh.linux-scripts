@@ -129,23 +129,6 @@ else
 	echo "Ignoring unison config, looks already done."
 fi
 
-if ! which ollama; then
-	curl -fsSL https://ollama.com/install.sh | sh
-	cat << EOT > ~/.local/share/applications/ollama.desktop 
-[Desktop Entry]
-Name=Ollama
-Exec=gnome-terminal -e "ollama run llama3"
-Terminal=false
-Type=Application
-Icon=ollama
-StartupWMClass=Ollama
-Comment=Ollama avec llama3
-Categories=Game;
-EOT
-	cp ./icons/* ~/.local/share/icons/ 
-	update-desktop-database ~/.local/share/applications 
-fi	
-
 echo "Manual steps:"
 echo " 1. Install Gnome Shell extensions (Dash to Dock + Tray Icon Reloaded)"
 echo " 3. Run 'rpi-sync' and check that everything looks it. If it is, enable crontab with 'ctonrab ./unison-hourly.cron'."
