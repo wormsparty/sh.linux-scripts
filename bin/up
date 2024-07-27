@@ -1,7 +1,5 @@
  #!/bin/sh
 
-NVIDIA_DRIVER=nvidia-driver-535
-
 if which dnf > /dev/null; then
 	sudo dnf upgrade
 	sudo dnf remove --oldinstallonly
@@ -26,6 +24,9 @@ sudo apt full-upgrade
 sudo apt autoremove
 sudo apt autoclean
 
-if dpkg -l $NVIDIA_DRIVER; then
-	sudo apt install --reinstall $NVIDIA_DRIVER
-fi
+# To be tested, may not be the culpit of black screen on login
+#NVIDIA_DRIVER=nvidia-driver-535
+
+#if dpkg -l $NVIDIA_DRIVER; then
+#	sudo apt install --reinstall $NVIDIA_DRIVER
+#fi
