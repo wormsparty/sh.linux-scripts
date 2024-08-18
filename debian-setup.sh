@@ -25,7 +25,7 @@ fi
 sudo apt install curl rclone krita vlc transmission-gtk blender gnome-music signal-desktop libreoffice-writer vim unison-gtk ntp
 
 sudo systemctl restart ntp
-sudo systemctl enable ntp
+sudo systemctl enable ntpsec
 
 # 3. Call the common script for non-specific configuration
 sh ./common-setup.sh
