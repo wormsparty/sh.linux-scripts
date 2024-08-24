@@ -27,6 +27,9 @@ fi
 
 sudo systemctl disable bluetooth
 sudo systemctl enable ssh
+sudo systemctl disable wpa_supplicant
+sudo systemctl disable bluetooth
+sudo systemctl disable hciuart
 sudo systemctl enable lightdm
 
 if ! grep kodi /etc/lightdm/lightdm.conf; then
