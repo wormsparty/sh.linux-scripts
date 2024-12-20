@@ -30,10 +30,11 @@ fi
 if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	# To find your wifi kernel module: lspci -v, and the driver name is the last line
 	sudo bash -c "echo 'blacklist rtw88_8821ce' > /etc/modprobe.d/rtw88_8821ce.conf"
+	sudo bash -c "echo 'blacklist mt7921e' > /etc/modprobe.d/mt7921e.conf"
 	sudo bash -c "echo 'blacklist mwifiex_pcie' > /etc/modprobe.d/mwifiex_pcie.conf"
 	sudo bash -c "echo 'blacklist iwlwifi' > /etc/modprobe.d/iwlwifi.conf"
 	
-	sudo bash -c "echo 'blacklist bluetooth'  > /etc/modprobe.d/bluetooth.conf"
+	sudo bash -c "echo 'blacklist bluetooth'  > /etc/modprobe.d/blmt7921euetooth.conf"
 	sudo bash -c "echo 'install bluetooth /bin/true' >> /etc/modprobe.d/bluetooth.conf"
 	sudo bash -c "echo 'blacklist btrtl' >> /etc/modprobe.d/bluetooth.conf"
 	sudo bash -c "echo 'blacklist btmtk' >> /etc/modprobe.d/bluetooth.conf"
@@ -44,16 +45,14 @@ if [ ! -f /etc/modprobe.d/rtw88_8821ce.conf ]; then
 	if which dracut; then
 		# OpenSUSE, Fedora, etc.
 		sudo dracut -f --regenerate-all
+   	
+		if which mkinitrd; then
+    			# OpenSUSE version
+    			sudo mkinitrd
+      		fi
  	else
 		# Debian version
 		sudo depmod -ae
-  	fi
-
-   	if which mkinitrd; then
-    		# OpenSUSE version
-    		sudo mkinitrd
-      	else
-       		# Debian version
 		sudo update-initramfs -u
   	fi
 	
