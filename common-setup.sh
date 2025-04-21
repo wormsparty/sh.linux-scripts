@@ -86,8 +86,7 @@ gsettings set org.gnome.desktop.privacy remember-recent-files false
 
 # 4. Raspberry
 if ! grep -q rpi4 /etc/hosts; then
-	echo "172.22.22.77    rpi4" | sudo tee -a /etc/hosts
-	echo "172.22.22.88    rpi5" | sudo tee -a /etc/hosts
+	echo "192.168.1.152   rpi" | sudo tee -a /etc/hosts
 else
 	echo "Ignoring modifying hosts, looks already done."
 fi
