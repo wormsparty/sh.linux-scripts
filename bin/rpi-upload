@@ -6,13 +6,13 @@ read CHOICE
 	
 if [ "$CHOICE" = "f" ]; then
 	echo "Copying to film directory..."
-	scp -r "$@" raspberrypi:Videos/Films
+	scp -r "$@" rpi:Videos/Films
 elif [ "$CHOICE" = "t" ]; then
 	echo "Copying to TV shows directory..."
-	scp -r "$@" raspberrypi:Videos/TVShows
+	scp -r "$@" rpi:Videos/TVShows
 elif [ "$CHOICE" = "o" ]; then
 	echo "Copying to Downloads directory..."
-	scp -r "$@" raspberrypi:Downloads
+	scp -r "$@" rpi:Downloads
 else
 	echo "Unknown type: $CHOICE, aborting"
 	exit 1
